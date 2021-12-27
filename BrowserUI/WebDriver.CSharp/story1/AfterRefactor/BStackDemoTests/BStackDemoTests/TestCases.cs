@@ -70,7 +70,9 @@ namespace BStackDemoTests
             driver.Navigate().GoToUrl(bStackUrl);
             SignIn(username, password);
             element = driver.FindElement(By.Id(logoutLink));
-            Assert.AreEqual("Logout", element.Text);
+            element.Click();
+            element = driver.FindElement(By.Id(homepageSignInLink));
+            Assert.AreEqual("Sign In", element.Text);
         }
 
         private void SignIn(string username, string password) 
