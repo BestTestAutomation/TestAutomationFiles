@@ -10,11 +10,10 @@ namespace TriangleUnitTests
         Triangles.Triangles triangles;
 
         [SetUp]
-        public void Setup() 
+        public void Setup()
         {
             triangles = new Triangles.Triangles();
         }
-
 
         [Test]
         public void ZeroInputs()
@@ -40,31 +39,35 @@ namespace TriangleUnitTests
             Assert.IsFalse(triangles.IsTriangle(-1, -1, 1));
         }
 
-        [Test]
-        public void AllMaxValue()
+        [TestCase(1, 1, 2)]
+        [TestCase(2, 1, 1)]
+        [TestCase(1, 2, 1)]
+        [TestCase(0.5, 0.5, 2)]
+        [TestCase(0.5, 2, 0.5)]
+        [TestCase(2, 0.5, 0.5)]
+        public void NotTriangles(double side1, double side2, double side3)
         {
-            Assert.IsTrue(triangles.IsTriangle(double.MaxValue, double.MaxValue, double.MaxValue));
+            Assert.IsFalse(triangles.IsTriangle(side1, side2, side3));
+        }
+
+        [TestCase(1, 1, 1)]
+        [TestCase(1, 2, 2)]
+        [TestCase(3, 4, 5)]
+        public void AreTriangles(double side1, double side2, double side3)
+        {
+            Assert.IsTrue(triangles.IsTriangle(side1, side2, side3));
         }
 
         [Test]
-        public void NotTriangles()
+        public void InterestingCases()
         {
-            // two short sides equal the long side
-            Assert.IsFalse(triangles.IsTriangle(1, 1, 2));
-            Assert.IsFalse(triangles.IsTriangle(2, 1, 1));
-            Assert.IsFalse(triangles.IsTriangle(1, 2, 1));
-            // Two short sides are less than the long side
-            Assert.IsFalse(triangles.IsTriangle(0.5, 0.5, 2));
-            Assert.IsFalse(triangles.IsTriangle(0.5, 2, 0.5));
-            Assert.IsFalse(triangles.IsTriangle(2, 0.5, 0.5));
+            // What *should* happen here, versus what *does* happen here? Why?
+            // Assert.IsTrue(triangles.IsTriangle(double.MaxValue, double.MaxValue - 1, double.MaxValue - 1));
+            // Assert.IsTrue(triangles.IsTriangle(double.MaxValue, double.MaxValue + 1, double.MaxValue + 1));
+            // Assert.IsTrue(triangles.IsTriangle(double.MaxValue, double.MaxValue + double.MaxValue, double.MaxValue + double.MaxValue));
+            // Assert.IsTrue(triangles.IsTriangle(double.MaxValue, double.MaxValue * double.MaxValue, double.MaxValue * double.MaxValue));
         }
 
-        [Test]
-        public void AreTriangles()
-        {
-            Assert.IsTrue(triangles.IsTriangle(1, 1, 1));
-            Assert.IsTrue(triangles.IsTriangle(1, 2, 2));
-            Assert.IsTrue(triangles.IsTriangle(3, 4, 5));
-        }
+
     }
 }
