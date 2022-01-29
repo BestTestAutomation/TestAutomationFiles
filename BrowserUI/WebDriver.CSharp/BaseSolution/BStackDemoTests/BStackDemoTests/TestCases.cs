@@ -18,7 +18,6 @@ namespace BStackDemoTests
         public void Setup()
         {
             driver = new ChromeDriver();
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
         }
 
         [TearDown]
