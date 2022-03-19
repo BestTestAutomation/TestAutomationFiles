@@ -2,9 +2,6 @@
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Edge;
-using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.Support.UI;
 
 
 namespace BStackDemoTests
@@ -30,13 +27,13 @@ namespace BStackDemoTests
 
         #region LocatorStrings
         private readonly string bStackUrl = "https://bstackdemo.com/";
-        private By homepageSignInLink = By.Id("signin");
-        private By userNameTextBox = By.Id("react-select-2-input");
-        private By passwordTextbox = By.Id("react-select-3-input");
-        private By loginButton = By.Id("login-btn");
-        private By headerUsernameText = By.ClassName("username");
-        private By errorHeader = By.XPath("//*[@id=\"__next\"]/div[2]/div/form/div[2]/h3");
-        private By logoutLink = By.Id("logout");
+        private readonly string homepageSignInLink = "signin";
+        private readonly string userNameTextBox = "react-select-2-input";
+        private readonly string passwordTextbox = "react-select-3-input";
+        private readonly string loginButton = "login-btn";
+        private readonly string headerUsernameText = "username";
+        private readonly string errorHeader = "//*[@id=\"__next\"]/div[2]/div/form/div[2]/h3";
+        private readonly string logoutLink = "logout";
         #endregion
 
 
@@ -54,12 +51,12 @@ namespace BStackDemoTests
             if (isValid)
             {
                 // verify that we have signed in
-                element = driver.FindElement(headerUsernameText);
+                element = driver.FindElement(By.ClassName(headerUsernameText));
             }
             else
             {
                 // verify that we have NOT signed in
-                element = driver.FindElement(errorHeader);
+                element = driver.FindElement(By.XPath(errorHeader));
             }
             string textToVerify = element.Text;
             Assert.AreEqual(expectedResult, textToVerify);
@@ -72,22 +69,24 @@ namespace BStackDemoTests
             // navigate to the page
             driver.Navigate().GoToUrl(bStackUrl);
             SignIn(username, password);
-            element = driver.FindElement(logoutLink);
-            Assert.AreEqual("Logout", element.Text);
+            element = driver.FindElement(By.Id(logoutLink));
+            element.Click();
+            element = driver.FindElement(By.Id(homepageSignInLink));
+            Assert.AreEqual("Sign In", element.Text);
         }
 
         private void SignIn(string username, string password) 
         {
             // click sign in
-            element = driver.FindElement(homepageSignInLink);
+            element = driver.FindElement(By.Id(homepageSignInLink));
             element.Click();
             // enter our credentials
-            element = driver.FindElement(userNameTextBox);
+            element = driver.FindElement(By.Id(userNameTextBox));
             element.SendKeys(username + Keys.Enter);
-            element = driver.FindElement(passwordTextbox);
+            element = driver.FindElement(By.Id(passwordTextbox));
             element.SendKeys(password + Keys.Enter);
             // click the login button
-            element = driver.FindElement(loginButton);
+            element = driver.FindElement(By.Id(loginButton));
             element.Click();
         }
     }
