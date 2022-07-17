@@ -371,9 +371,23 @@ local.properties
 .classpath
 .settings/
 .loadpath
+.project
 
 # External tool builders
 .externalToolBuilders/
 
 # Locally stored "Eclipse launch configurations"
 *.launch
+
+
+# Intellij
+.idea/
+*.iml
+*.iws
+
+# Mac
+.DS_Store
+
+# Maven
+log/
+target/
